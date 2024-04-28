@@ -5,6 +5,14 @@ import atexit
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 
+def install_dependencies():
+    try:
+        subprocess.run("pip install spotify_dl", shell=True, check=True)
+        subprocess.run("pip install ffmpeg-python", shell=True, check=True)
+        subprocess.run("pip install --upgrade sentry-sdk", shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        messagebox.showerror("Error", f"Error durante la instalación: {e}")
+        exit(1)
 
 def set_spotify_env_vars():
     si = messagebox.askyesno("Spotify Client ID", "¿Tienes las Spotify Client ID?")
@@ -40,7 +48,10 @@ root.configure(bg="#f0f0f0")
 title_label = tk.Label(root, text="Spotify Downloader", font=("Helvetica", 20), bg="#f0f0f0")
 title_label.pack(pady=10)
 
-#botones
+# Botones
+install_btn = tk.Button(root, text="Instalar Dependencias", command=install_dependencies, bg="#4caf50", fg="white", font=("Helvetica", 12))
+install_btn.pack(pady=5)
+
 set_env_btn = tk.Button(root, text="Establecer Variables de Entorno", command=set_spotify_env_vars, bg="#2196f3", fg="white", font=("Helvetica", 12))
 set_env_btn.pack(pady=5)
 
